@@ -53,8 +53,8 @@ class tx_commentslanguagespam_hooks {
 		$form = $params['formdata'];
 		$this->conf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['comments_languagespam']);
 
-		$allow = GeneralUtility::trimExplode(",", $this->conf['allowedLanguages']);
-		$disallow = GeneralUtility::trimExplode(",", $this->conf['disallowedLanguages']);
+		$this->conf['allow'] = GeneralUtility::trimExplode(",", $this->conf['allowedLanguages']);
+		$this->conf['disallow'] = GeneralUtility::trimExplode(",", $this->conf['disallowedLanguages']);
 
 		// Init DetectLanguage API
 		DetectLanguage::setApiKey($this->conf['API_KEY']);
@@ -62,11 +62,11 @@ class tx_commentslanguagespam_hooks {
 		// Identify language
 		$result = DetectLanguage::simpleDetect($form['content']);
 
-		if ( in_array($result, $allow) ) {
+		if ( in_array($result, $this->conf['allow']) ) {
 			// Base case
 			// Do nothing
 
-		} else if ( in_array($result, $disallow) ) {
+		} else if ( in_array($result, $this->conf['disallow']) ) {
 			// Language is on disallow list
 			$additionalPoints += $this->conf['blackPoints'];
 
