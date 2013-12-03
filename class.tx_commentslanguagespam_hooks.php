@@ -33,7 +33,11 @@
  * @author Frederik Mogensen <frede@server-1.dk>
  */
 
+require_once('Resources/Libraries/DetectLanguage/lib/detectlanguage.php');
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use \DetectLanguage\DetectLanguage;
+
 
 class tx_commentslanguagespam_hooks {
 
@@ -44,8 +48,33 @@ class tx_commentslanguagespam_hooks {
 	 * @param   integer  $pObj    Parent object
 	 * @return  integer           integer value to be added to the current spam points
 	 */
-	function hook_externalSpamCheck(&$params, &$points) {
+	function hook_externalSpamCheck(&$params, &$pObj) {
+		$additionalPoints = 0;
+		$form = $params['formdata'];
+		$this->conf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['comments_languagespam']);
 
+		$allow = GeneralUtility::trimExplode(",", $this->conf['allowedLanguages']);
+		$disallow = GeneralUtility::trimExplode(",", $this->conf['disallowedLanguages']);
+
+		// Init DetectLanguage API
+		DetectLanguage::setApiKey($this->conf['API_KEY']);
+
+		// Identify language
+		$result = DetectLanguage::simpleDetect($form['content']);
+
+		if ( in_array($result, $allow) ) {
+			// Base case
+			// Do nothing
+
+		} else if ( in_array($result, $disallow) ) {
+			// Language is on disallow list
+			$additionalPoints += $this->conf['blackPoints'];
+
+		} else {
+			// Language is on gray list
+			$additionalPoints += $this->conf['grayPoints'];
+
+		}
 
 		return $additionalPoints;
 	}

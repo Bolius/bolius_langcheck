@@ -1,0 +1,14 @@
+# cat=basic; type=string; label=API key:API key for http://detectlanguage.com/
+API_KEY = 
+
+# cat=basic; type=integer; label=Gray list points:How many points are given to comments which language is not in the white list and not on the black list? "If comments receives more than 1 spam point, it is automatically set to disapproved state and notification is sent to the author" - comments manual
+grayPoints = 500
+
+# cat=basic; type=integer; label=Black list points:How many points are given to comments which language is on the black list. 
+blackPoints = 1000
+
+# cat=basic; type=string; label=Allowed Languages - White List:All languages that are unconditionally allowed. This handles comments that are indentified as a sister language. Find lanugages on http://detectlanguage.com/languages
+allowedLanguages = da, nb, sv
+
+# cat=basic; type=string; label=Allowed Languagesl - Black List:All languages that are unconditionally banned. Find lanugages on http://detectlanguage.com/languages
+disallowedLanguages = ru, en
