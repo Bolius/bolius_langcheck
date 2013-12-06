@@ -1,6 +1,7 @@
 <?php
 namespace TYPO3\CommentsLanguagespam\Service;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
+use \DetectLanguage\DetectLanguage;
 
 /***************************************************************
  *  Copyright notice
@@ -26,7 +27,7 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-require_once('Resources/Libraries/DetectLanguage/lib/detectlanguage.php');
+require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('comments_languagespam') . ('/Resources/Libraries/DetectLanguage/lib/detectlanguage.php');
 
 /**
  *
@@ -76,17 +77,18 @@ class LanguageService extends \TYPO3\CMS\Core\Service\AbstractService {
 
 		// Identify language
 		$result = DetectLanguage::simpleDetect($text);
+		error_log($result);
 
 		if ( in_array($result, $allowed) ) {
 			return 0;
 
 		} else if ( in_array($result, $disallowed) ) {
 			// Language is on disallow list
-			return $bp;
+			return $bP;
 
 		} else {
 			// Language is gray listed
-			return $gp;
+			return $gP;
 		}
 	}
 }
