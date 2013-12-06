@@ -10,5 +10,5 @@ blackPoints = 1000
 # cat=basic; type=string; label=Allowed Languages - White List:All languages that are unconditionally allowed. This handles comments that are indentified as a sister language. Find lanugages on http://detectlanguage.com/languages
 allowedLanguages = da, nb, sv
 
-# cat=basic; type=string; label=Allowed Languagesl - Black List:All languages that are unconditionally banned. Find lanugages on http://detectlanguage.com/languages
+# cat=basic; type=string; label=Disallowed Languagesl - Black List:All languages that are unconditionally banned. Find lanugages on http://detectlanguage.com/languages
 disallowedLanguages = ru, en
