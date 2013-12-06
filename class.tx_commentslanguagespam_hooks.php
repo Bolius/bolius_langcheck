@@ -63,20 +63,17 @@ class tx_commentslanguagespam_hooks {
 		$result = DetectLanguage::simpleDetect($form['content']);
 
 		if ( in_array($result, $this->conf['allow']) ) {
-			// Base case
-			// Do nothing
+			return 0;
 
 		} else if ( in_array($result, $this->conf['disallow']) ) {
 			// Language is on disallow list
-			$additionalPoints += $this->conf['blackPoints'];
+			return $this->conf['blackPoints'];
 
 		} else {
 			// Language is on gray list
-			$additionalPoints += $this->conf['grayPoints'];
+			return $this->conf['grayPoints'];
 
 		}
-
-		return $additionalPoints;
 	}
 }
 
