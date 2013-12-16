@@ -25,6 +25,11 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+require_once('Resources/Libraries/DetectLanguage/lib/detectlanguage.php');
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use \DetectLanguage\DetectLanguage;
+
 /**
  * class.tx_commentslanguagespam_hooks.php
  *
@@ -32,13 +37,6 @@
  *
  * @author Frederik Mogensen <frede@server-1.dk>
  */
-
-require_once('Resources/Libraries/DetectLanguage/lib/detectlanguage.php');
-
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use \DetectLanguage\DetectLanguage;
-
-
 class tx_commentslanguagespam_hooks {
 
 	/**
@@ -78,9 +76,6 @@ class tx_commentslanguagespam_hooks {
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/comments_languagespam/class.tx_commentslanguagespam_hooks.php']) {
-
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/comments_languagespam/class.tx_commentslanguagespam_hooks.php']);
 }
-
 ?>
-

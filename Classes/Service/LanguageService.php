@@ -7,7 +7,7 @@ use \DetectLanguage\DetectLanguage;
  *  Copyright notice
  *
  *  (c) 2013 Frederik Mogensen <frede@server-1.dk>
- *  
+ *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -30,8 +30,10 @@ use \DetectLanguage\DetectLanguage;
 require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('comments_languagespam') . ('/Resources/Libraries/DetectLanguage/lib/detectlanguage.php');
 
 /**
+ * Assignes spam points to texts based on language detemined by using
+ * DetectLanguage.com API
  *
- *
+ * @author Frederik Mogensen <frede@server-1.dk>
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class LanguageService extends \TYPO3\CMS\Core\Service\AbstractService {
@@ -43,9 +45,8 @@ class LanguageService extends \TYPO3\CMS\Core\Service\AbstractService {
 	 * Evaluate a text and return a spam rating
 	 * - Based on settings from the EM
 	 *
-	 * @param   array    $params  Parameters to the function
-	 * @param   integer  $pObj    Parent object
-	 * @return  integer           Spam rating based on language
+	 * @param   text     The text to determine a spam rating for
+	 * @return  integer  Spam rating based on language
 	 */
 	function rateText($text) {
 
@@ -63,8 +64,11 @@ class LanguageService extends \TYPO3\CMS\Core\Service\AbstractService {
 	 *
 	 * Evaluate a text and return a spam rating
 	 *
-	 * @param   array    $params  Parameters to the function
-	 * @param   integer  $pObj    Parent object
+	 * @param   text     text        The text to determine a spam rating for
+	 * @param   array    allowed     List of whitlisted languages
+	 * @param   array    disallowed  List of blacklisted languages
+	 * @param   integer  bP          The points to apply to a language on the blacklist
+	 * @param   integer  gP          The points to apply to a language that are neither white- or blacklisted
 	 * @return  integer           Spam rating based on language
 	 */
 	function rateTextExtended($text, $allowed, $disallowed, $bP, $gP) {
@@ -77,7 +81,6 @@ class LanguageService extends \TYPO3\CMS\Core\Service\AbstractService {
 
 		// Identify language
 		$result = DetectLanguage::simpleDetect($text);
-		error_log($result);
 
 		if ( in_array($result, $allowed) ) {
 			return 0;
