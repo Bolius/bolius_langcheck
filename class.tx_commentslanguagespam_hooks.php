@@ -54,6 +54,12 @@ class tx_commentslanguagespam_hooks {
 		$this->conf['allow'] = GeneralUtility::trimExplode(",", $this->conf['allowedLanguages']);
 		$this->conf['disallow'] = GeneralUtility::trimExplode(",", $this->conf['disallowedLanguages']);
 
+		// If there are a minLength and the string is shorter than that,
+		// assign 0 points to it
+		if ($this->conf['minLength'] > 0 && strlen($text) < $this->conf['minLength']) {
+			return 0;
+		}
+
 		// Init DetectLanguage API
 		DetectLanguage::setApiKey($this->conf['API_KEY']);
 

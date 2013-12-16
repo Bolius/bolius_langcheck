@@ -48,7 +48,7 @@ class LanguageService extends \TYPO3\CMS\Core\Service\AbstractService {
 	 * @param   text     The text to determine a spam rating for
 	 * @return  integer  Spam rating based on language
 	 */
-	function rateText($text) {
+	public function rateText($text) {
 
 		$conf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['comments_languagespam']);
 
@@ -56,7 +56,7 @@ class LanguageService extends \TYPO3\CMS\Core\Service\AbstractService {
 		$disallowed = GeneralUtility::trimExplode(",", $conf['disallowedLanguages']);
 
 		return $this->rateTextExtended($text, $allowed, $disallowed,
-			$conf['blackPoints'], $conf['grayPoints']);
+			$conf['blackPoints'], $conf['grayPoints'], $conf['minLength']);
 	}
 
 	/**
@@ -69,11 +69,17 @@ class LanguageService extends \TYPO3\CMS\Core\Service\AbstractService {
 	 * @param   array    disallowed  List of blacklisted languages
 	 * @param   integer  bP          The points to apply to a language on the blacklist
 	 * @param   integer  gP          The points to apply to a language that are neither white- or blacklisted
-	 * @return  integer           Spam rating based on language
+	 * @param   integer  minLength   The minimun length of the text required to call DetectLanguage
+	 * @return  integer              Spam rating based on language
 	 */
-	function rateTextExtended($text, $allowed, $disallowed, $bP, $gP) {
-		$additionalPoints = 0;
-		$form = $params['formdata'];
+	public function rateTextExtended($text, $allowed, $disallowed, $bP, $gP, $minLength = 0) {
+
+		// If there are a minLength and the string is shorter than that,
+		// assign 0 points to it
+		if ($minLength > 0 && strlen($text) < $minLength) {
+			return 0;
+		}
+
 		$conf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['comments_languagespam']);
 
 		// Init DetectLanguage API

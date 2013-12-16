@@ -1,6 +1,9 @@
 # cat=basic; type=string; label=API key:API key for http://detectlanguage.com/
 API_KEY = 
 
+# cat=basic; type=integer; label=The minimun length of the text required to call DetectLanguage. If the string is shorter, it will be assigned 0 points. If minLength = 0 the minLength check is omitted.
+minLength = 0
+
 # cat=basic; type=integer; label=Gray list points:How many points are given to comments which language is not in the white list and not on the black list? If comments receives more than 1 spam point, it is automatically set to disapproved state and notification is sent to a moderator.
 grayPoints = 500
 
