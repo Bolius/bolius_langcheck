@@ -1,0 +1,17 @@
+{
+	"name": "bolius/bolius_langcheck",
+	"type": "typo3-cms-extension",
+	"description": "Language check",
+	"license": ["GPL-2.0+"],
+	"version": "0.1.0",
+	"authors": [
+		{
+			"name": "Bolius Online",
+			"email": "egi@bolius.dk",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"typo3/cms-core": ">=6.0.*"
+	}
+}
